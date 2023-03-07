@@ -15,8 +15,8 @@ import static java.lang.System.exit;
 
 public abstract class Innings {
     protected TeamService teamService;
-    protected Team battingTeam ;
-    protected Team bowlingTeam ;
+    protected String battingTeam ;
+    protected String bowlingTeam ;
     protected int numberOfOvers;
     protected int numberOfPlayers;
     // We dont have to save them
@@ -26,12 +26,12 @@ public abstract class Innings {
     protected ScoreCard scoreCard ;
     protected ArrayList<Player> batsmenYetToBat;
 
-    public Innings(TeamService teamService, Team battingTeam, Team bowlingTeam, int numberOfOvers){
+    public Innings(TeamService teamService, String battingTeam, String bowlingTeam, int numberOfOvers){
         this.teamService = teamService;
         this.battingTeam = battingTeam;
         this.bowlingTeam = bowlingTeam;
         this.numberOfOvers = numberOfOvers;
-        scoreCard = new ScoreCard(battingTeam.getName() , bowlingTeam.getName());
+        scoreCard = new ScoreCard(battingTeam , bowlingTeam);
         batsmenYetToBat = getAllPlayers();
         numberOfPlayers = batsmenYetToBat.size() ;
         addAllBowlersFromBowlingTeam();
@@ -40,7 +40,7 @@ public abstract class Innings {
 
     private void addAllBowlersFromBowlingTeam() {
         ArrayList<BowlerPerformanceInMatch> bowlers = scoreCard.getBowlerPerformance();
-        for(Player player: teamService.getAllPlayers(bowlingTeam.getId())){
+        for(Player player: teamService.getAllPlayers(bowlingTeam)){
              if(player.getPlayerCategory() != PlayerCategory.BATSMAN)
                  bowlers.add(new BowlerPerformanceInMatch(player.getName())) ;
         }
@@ -90,7 +90,7 @@ public abstract class Innings {
     }
 
     private ArrayList<Player> getAllPlayers() {
-        List<Player> players = teamService.getAllPlayers(battingTeam.getId());
+        List<Player> players = teamService.getAllPlayers(battingTeam);
         batsmenYetToBat = new ArrayList<>(players);
         return batsmenYetToBat;
     }

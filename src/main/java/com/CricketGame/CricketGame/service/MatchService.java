@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface MatchService {
     PlayedMatchDetails play(Match match);
 
-    Optional<Match> getMatchDetailsbyId(String id);
+    Match getMatchDetailsbyId(String id);
 
 //    String saveMatch(Match match);
 }

@@ -6,13 +6,13 @@ import com.CricketGame.CricketGame.model.Team;
 
 
 public class FirstInnings extends Innings {
-    public FirstInnings(TeamService teamService, Team battingTeam, Team bowlingTeam, int numberofOvers) {
+    public FirstInnings(TeamService teamService, String battingTeam, String bowlingTeam, int numberofOvers) {
         super(teamService, battingTeam, bowlingTeam, numberofOvers);
     }
 
     public ScoreCard playFirstInnings() {
 
-        System.out.println(battingTeam.getName() + " is batting and " + bowlingTeam.getName() + " is bowling");
+        System.out.println(battingTeam + " is batting and " + bowlingTeam + " is bowling");
 
         striker = getNewPlayerInField();
         nonStriker = getNewPlayerInField();

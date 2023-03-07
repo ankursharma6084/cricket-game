@@ -18,9 +18,9 @@ import java.util.Scanner;
 public class PlayMatch {
 
     public Match play(Match match, TeamService teamService){
-        Team battingTeam;
-        Team bowlingTeam;
-        Team tossWinner;
+        String battingTeam;
+        String bowlingTeam;
+        String tossWinner;
         Coin winningTossTeamChoice;
         ArrayList<ScoreCard> scoreCard = new ArrayList<>() ;
         //System.out.println(match.getTeamA()+ " " +match.getTeamB());
@@ -38,24 +38,24 @@ public class PlayMatch {
 
         // Toss in progress
         System.out.println(" Toss in Progress ");
-        tossWinner = playToss(match.getTeamA(), match.getTeamB());
+        tossWinner = playToss(match.getFirstTeamId(), match.getSecondTeamId());
         System.out.println(tossWinner);
-        match.setTossWinner(tossWinner);
+        match.setTossWinnerId(tossWinner);
 
         // Toss Winner team decides randomly whether to Bat or Bowl
-        System.out.println("Team "+ tossWinner.getName()+ " won the toss and is deciding whether to Bat or Bowl ");
+        System.out.println("Team "+ tossWinner + " won the toss and is deciding whether to Bat or Bowl ");
         winningTossTeamChoice = coinToss() ;
         match.setWinningTossTeamChoice(winningTossTeamChoice);
         if(winningTossTeamChoice == Coin.Head){
-            System.out.println("Team "+ tossWinner.getName()+ " decided to Bat ");
+            System.out.println("Team "+ tossWinner + " decided to Bat ");
             battingTeam = tossWinner ;
-            bowlingTeam = getBowlingTeam(match.getTeamA(), match.getTeamB(), tossWinner) ;
+            bowlingTeam = getBowlingTeam(match.getFirstTeamId(), match.getSecondTeamId(), tossWinner) ;
         }
 
         else {
-            System.out.println("Team "+ tossWinner.getName()+ " decided to Bowl ");
+            System.out.println("Team "+ tossWinner + " decided to Bowl ");
             bowlingTeam = tossWinner ;
-            battingTeam = getBattingTeam(match.getTeamA(), match.getTeamB(), tossWinner) ;
+            battingTeam = getBattingTeam(match.getFirstTeamId(), match.getSecondTeamId(), tossWinner) ;
         }
 
         // First Innings
@@ -72,17 +72,19 @@ public class PlayMatch {
         showOutcomeofMatch(firstInningsScoreCard, secondInningsScoreCard);
         printScorecard(firstInningsScoreCard, secondInningsScoreCard);
 
-        setMatchesInTeamDetails(match, battingTeam);
-        setMatchesInTeamDetails(match, bowlingTeam);
+        setMatchesInTeamDetails(match, battingTeam, teamService);
+        setMatchesInTeamDetails(match, bowlingTeam, teamService);
 
         // saving Match in Database
         return match;
     }
 
-    private void setMatchesInTeamDetails(Match match, Team battingTeam) {
-        ArrayList<String> teamAMatches = battingTeam.getMatches();
+    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService) {
+        Team team = teamService.getTeamById(battingTeam);
+        ArrayList<String> teamAMatches = team.getMatches();
         teamAMatches.add(match.getId());
-        battingTeam.setMatches(teamAMatches);
+        team.setMatches(teamAMatches);
+        teamService.updateTeam(team, battingTeam);
     }
 
     private void setPlayingFormat(int numberOfOvers, Match match) {
@@ -177,8 +179,8 @@ public class PlayMatch {
         }
     }
 
-    private Team playToss(Team teamA, Team teamB) {
-        Team tossWinner;
+    private String playToss(String teamA, String teamB) {
+        String tossWinner;
         Coin tossOutcome = coinToss();
         if(tossOutcome == Coin.Head){
             tossWinner = teamA ;
@@ -213,12 +215,12 @@ public class PlayMatch {
         else return null ;
     }
 
-    private Team getBattingTeam(Team teamA, Team teamB, Team tossWinner) {
+    private String getBattingTeam(String teamA, String teamB, String tossWinner) {
         return getBowlingTeam(teamA, teamB , tossWinner) ;
     }
 
-    private Team getBowlingTeam(Team teamA, Team teamB, Team tossWinner) {
-        if(teamA == tossWinner) return teamB;
+    private String getBowlingTeam(String teamA, String teamB, String tossWinner) {
+        if(teamA.equals(tossWinner)) return teamB;
         return teamA ;
     }
 

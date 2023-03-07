@@ -5,7 +5,6 @@ import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.repository.PlayerRepository;
 import com.CricketGame.CricketGame.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,8 +35,8 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Optional<Team> getTeamById(String id) {
-        return teamRepository.findById(id);
+    public Team getTeamById(String id) {
+        return teamRepository.findById(id).orElseThrow(()-> new RuntimeException());
     }
 
     @Override

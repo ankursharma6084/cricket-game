@@ -25,15 +25,12 @@ public class TeamNameToMatchConverter {
            String secondTeamName = playingDetails.getSecondTeamName();
            int numberOfOvers = playingDetails.getNumberOfOvers();
 
-//           System.out.println(firstTeamName+ "  " + secondTeamName + " " + numberOfOvers);
-
            Team teamA = teamService.getTeamByname(firstTeamName);
            Team teamB = teamService.getTeamByname(secondTeamName);
            System.out.println(teamB.getId() + " " + teamA.getId() );
-           Match match = new Match(teamA , teamB) ;
+           Match match = new Match(teamA.getId() , teamB.getId()) ;
            match.setNumberOfOvers(numberOfOvers);
            return matchService.play(match);
 
-//          return null;
     }
 }

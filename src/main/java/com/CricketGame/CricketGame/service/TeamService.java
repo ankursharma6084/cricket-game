@@ -13,7 +13,7 @@ public interface TeamService {
 
     Team getTeamByname(String name);
 
-    Optional<Team> getTeamById(String id);
+    Team getTeamById(String id);
 
     void deleteTeam(String id);
 

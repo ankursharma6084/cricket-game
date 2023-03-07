@@ -22,19 +22,19 @@ import java.util.UUID;
 public class Match {
     @Id
     private String id;
-    private Team teamA ;
-    private Team teamB ;
-    private Team tossWinner ;
+    private String firstTeamId ;
+    private String secondTeamId ;
+    private String tossWinnerId ;
     private Coin winningTossTeamChoice;
     private PlayingFormat playingFormat;
     private int numberOfOvers ;
     private ArrayList<ScoreCard> scoreCard ;
 
-    public Match(Team A, Team B){
+    public Match(String firstTeamId, String secondTeamId){
         UUID uuid = UUID.randomUUID() ;
         id = uuid.toString();
-        this.teamA = A ;
-        this.teamB = B;
+        this.firstTeamId = firstTeamId ;
+        this.secondTeamId = secondTeamId;
         scoreCard = new ArrayList<>();
     }
 }

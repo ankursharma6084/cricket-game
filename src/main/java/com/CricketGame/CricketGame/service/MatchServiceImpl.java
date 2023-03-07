@@ -25,12 +25,10 @@ public class MatchServiceImpl implements MatchService{
             matchRepository.save(match);
             String winningTeam = playMatch.getWinningTeam(match.getScoreCard().get(0), match.getScoreCard().get(1));
             PlayedMatchDetails playedMatchDetails= new PlayedMatchDetails(winningTeam);
-            teamService.updateTeam(match.getTeamA(), match.getTeamA().getId());
-            teamService.updateTeam(match.getTeamB(), match.getTeamB().getId());
             return playedMatchDetails;
     }
     @Override
-    public Optional<Match> getMatchDetailsbyId(String id) {
-           return matchRepository.findById(id);
+    public Match getMatchDetailsbyId(String id) {
+           return matchRepository.findById(id).orElseThrow(()-> new RuntimeException());
     }
 }

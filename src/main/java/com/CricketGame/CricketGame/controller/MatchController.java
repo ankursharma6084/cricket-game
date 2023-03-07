@@ -25,7 +25,7 @@ public class MatchController {
        }
 
        @GetMapping("/match/{id}")
-       public Optional<Match> getMatchDetailsbyId(@PathVariable String id){
+       public Match getMatchDetailsbyId(@PathVariable String id){
               return matchService.getMatchDetailsbyId(id);
        }
 }
