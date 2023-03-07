@@ -17,17 +17,19 @@ import java.util.ArrayList;
 public class Team {
     @Id
     private String id;
-
     private String name ;
-
-    private ArrayList<Player> players ;
+    private ArrayList<String> players ;
+    private ArrayList<String> matches;
     public Team(String id,String name) {
         this.id = id ;
         this.name = name;
+        matches = new ArrayList<>();
     }
-    public Team(String name, ArrayList<Player> players) {
+    public Team(String id,String name, ArrayList<String> players) {
+        this.id = id;
         this.name = name;
         this.players = players;
+        matches = new ArrayList<>();
     }
     public String getId() {
         return id;
@@ -43,11 +45,11 @@ public class Team {
         this.name = name;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<String> getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<String> players) {
         this.players = players;
     }
 

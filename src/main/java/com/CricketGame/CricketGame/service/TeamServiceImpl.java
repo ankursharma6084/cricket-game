@@ -2,10 +2,13 @@ package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.Team;
+import com.CricketGame.CricketGame.repository.PlayerRepository;
 import com.CricketGame.CricketGame.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +17,11 @@ public class TeamServiceImpl implements TeamService{
 
     @Autowired
     TeamRepository teamRepository;
+    @Autowired
+    PlayerRepository playerRepository;
     @Override
     public void createTeam(Team team) {
-          teamRepository.save(team);
+        teamRepository.save(team);
     }
 
     @Override
@@ -47,6 +52,12 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public List<Player> getAllPlayers(String id) {
-        return teamRepository.findById(id).get().getPlayers();
+        List<String> playerIds = teamRepository.findById(id).get().getPlayers();
+        List<Player> players = new ArrayList<>();
+        for(String playerId: playerIds){
+            // Exception Handling Left
+            players.add(playerRepository.findById(playerId).orElseThrow());
+        }
+        return players;
     }
 }

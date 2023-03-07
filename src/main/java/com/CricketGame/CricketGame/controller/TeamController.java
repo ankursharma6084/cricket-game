@@ -39,6 +39,7 @@ public class TeamController {
 
     @GetMapping("/team/byname/{name}")
     public Team getTeamByName(@PathVariable String name){
+        System.out.println(name);
         return teamService.getTeamByname(name);
     }
 
