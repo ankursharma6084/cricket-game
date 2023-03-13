@@ -67,6 +67,7 @@ public class PlayMatch {
         ScoreCard secondInningsScoreCard = secondInnings.playSecondInnings(firstInningsScoreCard.getTotalScore()+1);
         scoreCard.add(secondInningsScoreCard) ;
         match.setScoreCard(scoreCard);
+        match.setWinningTeamId(getWinningTeam(firstInningsScoreCard, secondInningsScoreCard));
 
         // Getting Match outcome and Printing ScoreCard
         showOutcomeofMatch(firstInningsScoreCard, secondInningsScoreCard);

@@ -20,15 +20,14 @@ public class MatchServiceImpl implements MatchService{
 
     // write in converter
     @Override
-    public PlayedMatchDetails play(Match match) {
+    public Match play(Match match) {
             match = playMatch.play(match, teamService);
             matchRepository.save(match);
-            String winningTeam = playMatch.getWinningTeam(match.getScoreCard().get(0), match.getScoreCard().get(1));
-            PlayedMatchDetails playedMatchDetails= new PlayedMatchDetails(winningTeam);
-            return playedMatchDetails;
+            return match;
     }
     @Override
     public Match getMatchDetailsbyId(String id) {
            return matchRepository.findById(id).orElseThrow(()-> new RuntimeException());
     }
+
 }

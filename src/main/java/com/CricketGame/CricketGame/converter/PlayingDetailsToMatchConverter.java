@@ -4,14 +4,13 @@ import com.CricketGame.CricketGame.DTO.PlayedMatchDetails;
 import com.CricketGame.CricketGame.DTO.PlayingDetails;
 import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Team;
-import com.CricketGame.CricketGame.repository.TeamRepository;
 import com.CricketGame.CricketGame.service.MatchService;
 import com.CricketGame.CricketGame.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeamNameToMatchConverter {
+public class PlayingDetailsToMatchConverter {
     // teamservice
     @Autowired
     TeamService teamService;
@@ -30,7 +29,18 @@ public class TeamNameToMatchConverter {
            System.out.println(teamB.getId() + " " + teamA.getId() );
            Match match = new Match(teamA.getId() , teamB.getId()) ;
            match.setNumberOfOvers(numberOfOvers);
-           return matchService.play(match);
+           match = matchService.play(match);
 
+           String winningTeam = "";
+
+           if(match.getWinningTeamId().equals(teamA.getId())){
+               winningTeam = firstTeamName;
+           } else if (match.getWinningTeamId().equals(teamA.getId())) {
+               winningTeam = secondTeamName;
+           } else {
+               winningTeam = "No Winner";
+           }
+
+           return new PlayedMatchDetails(winningTeam);
     }
 }

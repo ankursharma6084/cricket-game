@@ -6,9 +6,7 @@ import com.CricketGame.CricketGame.model.Match;
 import java.util.Optional;
 
 public interface MatchService {
-    PlayedMatchDetails play(Match match);
+    Match play(Match match);
 
     Match getMatchDetailsbyId(String id);
-
-//    String saveMatch(Match match);
 }

@@ -18,13 +18,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Document(collection = "Match")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Component
 public class Match {
     @Id
     private String id;
     private String firstTeamId ;
     private String secondTeamId ;
     private String tossWinnerId ;
+    private String winningTeamId;
     private Coin winningTossTeamChoice;
     private PlayingFormat playingFormat;
     private int numberOfOvers ;

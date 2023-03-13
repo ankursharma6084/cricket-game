@@ -20,6 +20,7 @@ public class Team {
     private String name ;
     private ArrayList<String> players ;
     private ArrayList<String> matches;
+    private ArrayList<String> series;
     public Team(String id,String name) {
         this.id = id ;
         this.name = name;
