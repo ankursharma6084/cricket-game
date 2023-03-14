@@ -1,11 +1,19 @@
 package com.CricketGame.CricketGame.model;
 
+import com.CricketGame.CricketGame.constants.PlayerCategory;
+
 public class PlayerPerformanceInMatch {
     private String playerName ;
+    private PlayerCategory playerCategory;
     private int runsScored;
     private int fours;
     private int sixes;
-
+    public PlayerCategory getPlayerCategory() {
+        return playerCategory;
+    }
+    public void setPlayerCategory(PlayerCategory playerCategory) {
+        this.playerCategory = playerCategory;
+    }
     public String getPlayerName() {
         return playerName;
     }

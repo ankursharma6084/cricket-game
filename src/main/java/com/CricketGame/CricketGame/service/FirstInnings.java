@@ -43,7 +43,7 @@ public class FirstInnings extends Innings {
         for(int curBall = 1; curBall<=currentOver.getSize()
                             && scoreCard.getTotalWickets() < numberOfPlayers - 1; curBall++){
             currentBowler.setBallsBowled(currentBowler.getBallsBowled()+1);
-            int runs = getOutcomeofBallThrown();
+            int runs = getOutcomeofBallThrown(striker.getPlayerCategory());
             if(runs == -1) System.out.print("W ");
             else System.out.print(runs + " ");
             if(runs == -1){

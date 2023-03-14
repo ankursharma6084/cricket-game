@@ -79,13 +79,15 @@ public abstract class Innings {
     }
 
     protected PlayerPerformanceInMatch getNewPlayerInField() {
-        PlayerPerformanceInMatch player = batsmanComingtoTheField(batsmenYetToBat.get(0).getName());
+        PlayerPerformanceInMatch player = batsmanComingtoTheField(batsmenYetToBat.get(0).getName(),
+                                          batsmenYetToBat.get(0).getPlayerCategory());
         batsmenYetToBat.remove(0);
         return player ;
     }
 
-    protected PlayerPerformanceInMatch batsmanComingtoTheField(String name) {
+    protected PlayerPerformanceInMatch batsmanComingtoTheField(String name, PlayerCategory playerCategory) {
         PlayerPerformanceInMatch player = new PlayerPerformanceInMatch(name);
+        player.setPlayerCategory(playerCategory);
         return player;
     }
 
@@ -101,10 +103,8 @@ public abstract class Innings {
         nonStriker = temp;
     }
 
-    protected int getOutcomeofBallThrown() {
-        int runs = (int)(Math.random()*10 - 1)%8 ;
-        if(runs == 7) runs = -1 ;
-        return runs ;
+    protected int getOutcomeofBallThrown(PlayerCategory playerCategory) {
+              return OutcomeOfEveryBall.getResult(playerCategory);
     }
 
 }

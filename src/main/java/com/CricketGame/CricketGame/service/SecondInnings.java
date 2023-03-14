@@ -44,7 +44,7 @@ public class SecondInnings extends Innings{
                                 && scoreCard.getTotalWickets() < numberOfPlayers - 1
                                 && target > scoreCard.getTotalScore(); curBall++){
             currentBowler.setBallsBowled(currentBowler.getBallsBowled()+1);
-            int runs = getOutcomeofBallThrown();
+            int runs = getOutcomeofBallThrown(striker.getPlayerCategory());
             if(runs == -1) System.out.print("W ");
             else System.out.print(runs + " ");
             if(runs == -1){

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SeriesController {
-
     @Autowired
     SeriesService seriesService;
     @GetMapping("/playSeries")

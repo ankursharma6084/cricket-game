@@ -35,7 +35,7 @@ public class PlayingDetailsToMatchConverter {
 
            if(match.getWinningTeamId().equals(teamA.getId())){
                winningTeam = firstTeamName;
-           } else if (match.getWinningTeamId().equals(teamA.getId())) {
+           } else if (match.getWinningTeamId().equals(teamB.getId())) {
                winningTeam = secondTeamName;
            } else {
                winningTeam = "No Winner";
