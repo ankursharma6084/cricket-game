@@ -1,6 +1,7 @@
 package com.CricketGame.CricketGame.controller;
 
 
+import com.CricketGame.CricketGame.converter.PlayerPerformance;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,21 @@ public class PlayerController {
         return "Player Succesfully Updated";
     }
 
+    @GetMapping("/player/{playerId}/match/{matchId}")
+    public PlayerPerformance getPlayerPerformance(@PathVariable String playerId, @PathVariable String matchId){
+           return playerService.getPlayerPerformance(playerId, matchId);
+    }
+
+    // player in series
+    // highest wicket taker in series, highest run scorer in series
+
     @GetMapping("/player/byname/{name}")
     public List<Player> getPlayerByName(@PathVariable String name){
         return playerService.getPlayerByname(name);
     }
 
     @GetMapping("/player/byId/{id}")
-    public Optional<Player> getPlayerById(@PathVariable String id){
+    public Player getPlayerById(@PathVariable String id){
         return playerService.getPlayerById(id);
     }
 

@@ -1,5 +1,6 @@
 package com.CricketGame.CricketGame.service;
 
+import com.CricketGame.CricketGame.converter.PlayerPerformance;
 import com.CricketGame.CricketGame.model.Player;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,7 @@ public interface PlayerService {
 
     void deletePlayer(String id);
 
-    Optional<Player> getPlayerById(String id);
+    Player getPlayerById(String id);
+
+    PlayerPerformance getPlayerPerformance(String playerId, String matchId);
 }
