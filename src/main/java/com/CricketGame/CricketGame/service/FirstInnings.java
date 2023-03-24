@@ -18,7 +18,7 @@ public class FirstInnings extends Innings {
         nonStriker = getNewPlayerInField();
 
         for(int curOver = 1; curOver<= numberOfOvers && scoreCard.getTotalWickets() < numberOfPlayers - 1; curOver++){
-            Over currentOver = new Over() ;
+            Over currentOver = new Over(curOver) ;
             currentBowler = getNextBowler(currentBowler) ;
             System.out.println("Over - " + curOver);
             playCurrentOver(currentOver);

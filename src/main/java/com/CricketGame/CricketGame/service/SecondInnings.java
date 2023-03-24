@@ -17,7 +17,7 @@ public class SecondInnings extends Innings{
 
         for(int curOver = 1 ; curOver<= numberOfOvers && scoreCard.getTotalWickets() < numberOfPlayers - 1
                 && target > scoreCard.getTotalScore(); curOver++){
-            Over currentOver = new Over() ;
+            Over currentOver = new Over(curOver) ;
             currentBowler = getNextBowler(currentBowler) ;
             System.out.println("Over - " + curOver);
             playCurrentOver(target,currentOver);

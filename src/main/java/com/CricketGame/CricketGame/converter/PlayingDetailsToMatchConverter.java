@@ -41,6 +41,6 @@ public class PlayingDetailsToMatchConverter {
                winningTeam = "No Winner";
            }
 
-           return new PlayedMatchDetails(winningTeam);
+           return new PlayedMatchDetails(winningTeam , match.getId());
     }
 }
