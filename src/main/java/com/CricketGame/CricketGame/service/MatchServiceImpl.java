@@ -12,11 +12,11 @@ import java.util.Optional;
 @Service
 public class MatchServiceImpl implements MatchService{
     @Autowired
-    PlayMatch playMatch;
+    private PlayMatch playMatch;
     @Autowired
-    MatchRepository matchRepository;
+    private MatchRepository matchRepository;
     @Autowired
-    TeamService teamService;
+    private TeamService teamService;
 
     // write in converter
     @Override

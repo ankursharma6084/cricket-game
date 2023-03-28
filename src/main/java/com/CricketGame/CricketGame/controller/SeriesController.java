@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SeriesController {
     @Autowired
-    SeriesService seriesService;
+    private SeriesService seriesService;
     @GetMapping("/playSeries")
     public PlayedSeriesDetails playSeries(@RequestBody PlayingDetailsInSeries playingDetailsInSeries){
         return seriesService.playSeries(playingDetailsInSeries);

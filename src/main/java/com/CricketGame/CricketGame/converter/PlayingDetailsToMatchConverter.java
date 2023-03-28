@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 public class PlayingDetailsToMatchConverter {
     // teamservice
     @Autowired
-    TeamService teamService;
+    private TeamService teamService;
     @Autowired
-    MatchService matchService;
+    private MatchService matchService;
 
 
     public PlayedMatchDetails play(PlayingDetails playingDetails) {
@@ -27,6 +27,8 @@ public class PlayingDetailsToMatchConverter {
            Team teamA = teamService.getTeamByname(firstTeamName);
            Team teamB = teamService.getTeamByname(secondTeamName);
            System.out.println(teamB.getId() + " " + teamA.getId() );
+
+           // crete match in teamservice
            Match match = new Match(teamA.getId() , teamB.getId()) ;
            match.setNumberOfOvers(numberOfOvers);
            match = matchService.play(match);

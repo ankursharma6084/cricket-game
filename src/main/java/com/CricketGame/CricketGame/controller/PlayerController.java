@@ -20,7 +20,7 @@ import java.util.Optional;
 public class PlayerController {
 
     @Autowired
-    PlayerService playerService;
+    private PlayerService playerService;
 
     @PostMapping("/player/create")
     public String createPlayer(@RequestBody Player player){

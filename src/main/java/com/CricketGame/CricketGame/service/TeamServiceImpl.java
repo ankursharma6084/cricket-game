@@ -15,9 +15,9 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService{
 
     @Autowired
-    TeamRepository teamRepository;
+    private TeamRepository teamRepository;
     @Autowired
-    PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;
     @Override
     public void createTeam(Team team) {
         teamRepository.save(team);
@@ -25,6 +25,7 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public void updateTeam(Team team, String id) {
+        // validate id
         team.setId(id);
         teamRepository.save(team);
     }

@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 public class TeamController {
     @Autowired
-    TeamService teamService;
+    private TeamService teamService;
 
     @GetMapping("/team")
     public String team(){
@@ -28,7 +28,7 @@ public class TeamController {
     @PostMapping("/team/create")
     public String createTeam(@RequestBody Team team){
         teamService.createTeam(team);
-        return "Team Succesfully Created";
+        return "Team Successfully Created";
     }
 
     @PutMapping("/team/update/{id}")

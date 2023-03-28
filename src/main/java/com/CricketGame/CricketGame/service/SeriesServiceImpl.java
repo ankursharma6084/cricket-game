@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class SeriesServiceImpl implements SeriesService {
 
     @Autowired
-    MatchService matchService;
+    private MatchService matchService;
     @Autowired
-    TeamService teamService;
+    private TeamService teamService;
     @Autowired
-    SeriesRepository seriesRepository;
+    private SeriesRepository seriesRepository;
 
     @Override
     public PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries) {

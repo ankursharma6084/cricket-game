@@ -18,9 +18,9 @@ import java.util.Optional;
 @Service
 public class PlayerServiceImpl implements PlayerService {
     @Autowired
-    PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;
     @Autowired
-    MatchRepository matchRepository;
+    private MatchRepository matchRepository;
     @Override
     public void createPlayer(Player player) {
            playerRepository.save(player);

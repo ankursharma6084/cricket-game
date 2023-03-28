@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MatchController {
        @Autowired
-       PlayingDetailsToMatchConverter teamNameToMatchConverter;
+       private PlayingDetailsToMatchConverter teamNameToMatchConverter;
        @Autowired
-       MatchService matchService;
+       private MatchService matchService;
        @GetMapping("/playMatch")
        public PlayedMatchDetails play(@RequestBody PlayingDetails playingDetails){
                return teamNameToMatchConverter.play(playingDetails);
