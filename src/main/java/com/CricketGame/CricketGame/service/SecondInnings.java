@@ -1,11 +1,12 @@
 package com.CricketGame.CricketGame.service;
 
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Over;
 import com.CricketGame.CricketGame.model.ScoreCard;
 import com.CricketGame.CricketGame.model.Team;
 
 public class SecondInnings extends Innings{
-    public SecondInnings(TeamService teamService, String battingTeam, String bowlingTeam, int numberofOvers) {
+    public SecondInnings(TeamService teamService, String battingTeam, String bowlingTeam, int numberofOvers) throws InvalidDetailsException {
         super(teamService, battingTeam, bowlingTeam, numberofOvers);
     }
 

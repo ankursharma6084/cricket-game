@@ -2,6 +2,7 @@ package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.constants.Coin;
 import com.CricketGame.CricketGame.constants.PlayingFormat;
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.BowlerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Over;
@@ -17,7 +18,7 @@ import java.util.Scanner;
 @Service
 public class PlayMatch {
 
-    public Match play(Match match, TeamService teamService){
+    public Match play(Match match, TeamService teamService) throws InvalidDetailsException {
         String battingTeam;
         String bowlingTeam;
         String tossWinner;
@@ -32,9 +33,16 @@ public class PlayMatch {
 //        int choiceOfFormat = sc.nextInt() ;
 //        int numberOfOvers = getNumberofOversFromchoiceOfFormat(choiceOfFormat) ;
 
-        int numberOfOvers = match.getNumberOfOvers();
-        // setting Playing Format
-        setPlayingFormat(numberOfOvers, match);
+        int numberOfOvers;
+
+        // get number of overs from playing format
+        if(match.getPlayingFormat() == PlayingFormat.CUSTOM)
+           numberOfOvers = match.getNumberOfOvers();
+        else
+        {
+            numberOfOvers = getNumberofOversFromPlayingFormat(match.getPlayingFormat()) ;
+            match.setNumberOfOvers(numberOfOvers);
+        }
 
         // Toss in progress
         System.out.println(" Toss in Progress ");
@@ -80,7 +88,7 @@ public class PlayMatch {
         return match;
     }
 
-    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService) {
+    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService) throws InvalidDetailsException {
         Team team = teamService.getTeamById(battingTeam);
         ArrayList<String> teamAMatches = team.getMatches();
         teamAMatches.add(match.getId());
@@ -154,29 +162,18 @@ public class PlayMatch {
     }
 
 
-    private int getNumberofOversFromchoiceOfFormat(int choiceOfFormat, PlayingFormat playingFormat) {
-        if(choiceOfFormat == 1) {
-            playingFormat = PlayingFormat.T05;
+    private int getNumberofOversFromPlayingFormat(PlayingFormat playingFormat) {
+        if(playingFormat == PlayingFormat.T05) {
             return 5;
         }
-        else if (choiceOfFormat == 2) {
-            playingFormat = PlayingFormat.T10;
+        else  if(playingFormat == PlayingFormat.T10) {
             return 10;
         }
-        else if (choiceOfFormat == 3) {
-            playingFormat = PlayingFormat.T20;
+        else  if(playingFormat == PlayingFormat.T20) {
             return 20;
         }
-        else if (choiceOfFormat == 4) {
-            playingFormat = PlayingFormat.ODI;
-            return 50;
-        }
         else {
-            playingFormat = PlayingFormat.CUSTOM;
-            System.out.println("Enter the number of Overs you want to play");
-            Scanner sc = new Scanner(System.in);
-            int numberOfOvers = sc.nextInt() ;
-            return numberOfOvers ;
+            return 50;
         }
     }
 

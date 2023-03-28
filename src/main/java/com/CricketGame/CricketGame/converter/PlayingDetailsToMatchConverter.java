@@ -2,6 +2,8 @@ package com.CricketGame.CricketGame.converter;
 
 import com.CricketGame.CricketGame.DTO.PlayedMatchDetails;
 import com.CricketGame.CricketGame.DTO.PlayingDetails;
+import com.CricketGame.CricketGame.constants.PlayingFormat;
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.service.MatchService;
@@ -17,32 +19,22 @@ public class PlayingDetailsToMatchConverter {
     @Autowired
     private MatchService matchService;
 
+    public PlayedMatchDetails play(PlayingDetails playingDetails) throws InvalidDetailsException {
 
-    public PlayedMatchDetails play(PlayingDetails playingDetails) {
+           // Handle if wrong data is sent --> Validation
 
            String firstTeamName = playingDetails.getFirstTeamName();
            String secondTeamName = playingDetails.getSecondTeamName();
-           int numberOfOvers = playingDetails.getNumberOfOvers();
+           PlayingFormat playingFormat = playingDetails.getPlayingFormat();
+           int numberOfOvers = 0 ;
+           if(playingFormat.equals(PlayingFormat.CUSTOM))
+                numberOfOvers = playingDetails.getNumberOfOvers();
 
            Team teamA = teamService.getTeamByname(firstTeamName);
            Team teamB = teamService.getTeamByname(secondTeamName);
            System.out.println(teamB.getId() + " " + teamA.getId() );
 
-           // crete match in teamservice
-           Match match = new Match(teamA.getId() , teamB.getId()) ;
-           match.setNumberOfOvers(numberOfOvers);
-           match = matchService.play(match);
-
-           String winningTeam = "";
-
-           if(match.getWinningTeamId().equals(teamA.getId())){
-               winningTeam = firstTeamName;
-           } else if (match.getWinningTeamId().equals(teamB.getId())) {
-               winningTeam = secondTeamName;
-           } else {
-               winningTeam = "No Winner";
-           }
-
-           return new PlayedMatchDetails(winningTeam , match.getId());
+           // crete match in matchService
+           return matchService.play(teamA, teamB, numberOfOvers, playingFormat);
     }
 }

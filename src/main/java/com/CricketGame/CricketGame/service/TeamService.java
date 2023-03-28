@@ -1,23 +1,23 @@
 package com.CricketGame.CricketGame.service;
 
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.Team;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TeamService {
-    void createTeam(Team team);
+    String createTeam(Team team);
 
-    void updateTeam(Team team, String id);
+    String updateTeam(Team team, String id);
 
-    Team getTeamByname(String name);
+    Team getTeamByname(String name) throws InvalidDetailsException;
 
-    Team getTeamById(String id);
+    Team getTeamById(String id) throws InvalidDetailsException;
 
-    void deleteTeam(String id);
+    String deleteTeam(String id);
 
     List<Team> getAllTeams();
 
-    List<Player> getAllPlayers(String id);
+    List<Player> getAllPlayers(String id) throws InvalidDetailsException;
 }

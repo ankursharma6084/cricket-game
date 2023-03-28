@@ -1,5 +1,6 @@
 package com.CricketGame.CricketGame.controller;
 
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.service.TeamService;
@@ -10,57 +11,54 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@RequestMapping("/team")
 public class TeamController {
     @Autowired
     private TeamService teamService;
 
-    @GetMapping("/team")
+    @GetMapping
     public String team(){
-        return "Team India";
+        return "Server is Up and running";
     }
 
-    @PostMapping("/team/create")
+    @PostMapping("/create")
     public String createTeam(@RequestBody Team team){
-        teamService.createTeam(team);
-        return "Team Successfully Created";
+        return teamService.createTeam(team);
     }
 
-    @PutMapping("/team/update/{id}")
+    @PutMapping("/update/{id}")
     public String updateTeam(@RequestBody Team team, @PathVariable String id){
-        teamService.updateTeam(team, id);
-        return "Team Succesfully Updated";
+        return teamService.updateTeam(team, id);
     }
 
-    @GetMapping("/team/byname/{name}")
-    public Team getTeamByName(@PathVariable String name){
-        System.out.println(name);
+    @GetMapping("/byName/{name}")
+    public Team getTeamByName(@PathVariable String name) throws InvalidDetailsException {
         return teamService.getTeamByname(name);
     }
 
-    @GetMapping("/team/byId/{id}")
-    public Team getTeamById(@PathVariable String id){
+    @GetMapping("/byId/{id}")
+    public Team getTeamById(@PathVariable String id) throws InvalidDetailsException {
         return teamService.getTeamById(id);
     }
 
-    @DeleteMapping("/team/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteTeam(@PathVariable String id){
-        teamService.deleteTeam(id);
-        return "Player Succesfully Deleted";
+        return teamService.deleteTeam(id);
     }
 
-    @GetMapping("/team/getAllTeams")
+    @GetMapping("/getAllTeams")
     public List<Team> getAllTeams(){
         return teamService.getAllTeams();
     }
 
-    @GetMapping("/team/{id}/getAllPlayers")
-    public List<Player> getAllPlayers(@PathVariable String id){
+    @GetMapping("/{id}/getAllPlayers")
+    public List<Player> getAllPlayers(@PathVariable String id) throws InvalidDetailsException {
         return teamService.getAllPlayers(id);
     }
 

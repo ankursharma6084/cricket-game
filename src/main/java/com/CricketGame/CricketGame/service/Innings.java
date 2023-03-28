@@ -1,6 +1,7 @@
 package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.constants.PlayerCategory;
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.BowlerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.Over;
 import com.CricketGame.CricketGame.model.Player;
@@ -26,7 +27,7 @@ public abstract class Innings {
     protected ScoreCard scoreCard ;
     protected ArrayList<Player> batsmenYetToBat;
 
-    public Innings(TeamService teamService, String battingTeam, String bowlingTeam, int numberOfOvers){
+    public Innings(TeamService teamService, String battingTeam, String bowlingTeam, int numberOfOvers) throws InvalidDetailsException {
         this.teamService = teamService;
         this.battingTeam = battingTeam;
         this.bowlingTeam = bowlingTeam;
@@ -38,7 +39,7 @@ public abstract class Innings {
         currentBowler = null;
     }
 
-    private void addAllBowlersFromBowlingTeam() {
+    private void addAllBowlersFromBowlingTeam() throws InvalidDetailsException {
         ArrayList<BowlerPerformanceInMatch> bowlers = scoreCard.getBowlerPerformance();
         for(Player player: teamService.getAllPlayers(bowlingTeam)){
              if(player.getPlayerCategory() != PlayerCategory.BATSMAN)
@@ -46,8 +47,7 @@ public abstract class Innings {
         }
 
         if(bowlers.size() == 0){
-            System.out.println("Your Team dosenot have any bowlers! Please add some bowlers");
-            exit(-1);
+            throw new InvalidDetailsException("Bowlers size cannot be zero");
         }
     }
 
@@ -91,7 +91,7 @@ public abstract class Innings {
         return player;
     }
 
-    private ArrayList<Player> getAllPlayers() {
+    private ArrayList<Player> getAllPlayers() throws InvalidDetailsException {
         List<Player> players = teamService.getAllPlayers(battingTeam);
         batsmenYetToBat = new ArrayList<>(players);
         return batsmenYetToBat;

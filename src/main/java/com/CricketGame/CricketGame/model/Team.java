@@ -19,6 +19,8 @@ public class Team {
     private String id;
     private String name ;
     private ArrayList<String> players ;
+
+    // Remove these fields from team as they are derived fields
     private ArrayList<String> matches;
     private ArrayList<String> series;
     public Team(String id,String name) {

@@ -2,6 +2,8 @@ package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.DTO.PlayedSeriesDetails;
 import com.CricketGame.CricketGame.DTO.PlayingDetailsInSeries;
+import com.CricketGame.CricketGame.constants.PlayingFormat;
+import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Series;
 import com.CricketGame.CricketGame.model.Team;
@@ -21,13 +23,17 @@ public class SeriesServiceImpl implements SeriesService {
     private SeriesRepository seriesRepository;
 
     @Override
-    public PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries) {
+    public PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries) throws InvalidDetailsException {
 
            String firstTeamName = playingDetailsInSeries.getFirstTeamName();
            String secondTeamName = playingDetailsInSeries.getSecondTeamName();
-           int numberOfOvers = playingDetailsInSeries.getNumberOfOvers();
+            PlayingFormat playingFormat = playingDetailsInSeries.getPlayingFormat();
+            int numberOfOvers = 0 ;
+            if(playingFormat.equals(PlayingFormat.CUSTOM))
+                numberOfOvers = playingDetailsInSeries.getNumberOfOvers();
 
-           Team teamA = teamService.getTeamByname(firstTeamName);
+
+        Team teamA = teamService.getTeamByname(firstTeamName);
            Team teamB = teamService.getTeamByname(secondTeamName);
            int matchesInSeriesWonByTeamA = 0 ;
            int matchesInSeriesWonByTeamB = 0 ;
@@ -35,10 +41,7 @@ public class SeriesServiceImpl implements SeriesService {
            Series series = new Series(playingDetailsInSeries.getSeriesName(), teamA.getId() , teamB.getId());
 
            for (int i=0 ; i<playingDetailsInSeries.getNumberOfMatches(); i++){
-
-               Match match = new Match(teamA.getId() , teamB.getId()) ;
-               match.setNumberOfOvers(numberOfOvers);
-               match = matchService.play(match) ;
+               Match match = matchService.playInningsMatch(teamA, teamB, numberOfOvers, playingFormat) ;
                series.getMatches().add(match);
 
                if(match.getWinningTeamId().equals(teamA.getId())) {
@@ -86,8 +89,9 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public Series getSeriesDetails(String id) {
+    public Series getSeriesDetails(String id) throws InvalidDetailsException {
         // Exception halndling left
-        return seriesRepository.findById(id).orElseThrow( ()-> new RuntimeException() );
+        return seriesRepository.findById(id)
+                .orElseThrow( ()-> new InvalidDetailsException("No series details found with id " + id)) ;
     }
 }
