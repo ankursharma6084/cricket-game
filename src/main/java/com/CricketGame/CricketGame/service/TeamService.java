@@ -7,17 +7,17 @@ import com.CricketGame.CricketGame.model.Team;
 import java.util.List;
 
 public interface TeamService {
-    String createTeam(Team team);
+    Team createTeam(Team team);
 
-    String updateTeam(Team team, String id);
+    Team updateTeam(Team team, String id);
 
-    Team getTeamByname(String name) throws InvalidDetailsException;
+    Team getTeamByname(String name);
 
-    Team getTeamById(String id) throws InvalidDetailsException;
+    Team getTeamById(String id);
 
     String deleteTeam(String id);
 
     List<Team> getAllTeams();
 
-    List<Player> getAllPlayers(String id) throws InvalidDetailsException;
+    List<Player> getAllPlayers(String id);
 }

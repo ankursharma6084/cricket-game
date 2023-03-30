@@ -20,12 +20,12 @@ public class SeriesController {
     @Autowired
     private SeriesService seriesService;
     @GetMapping("/play")
-    public PlayedSeriesDetails playSeries(@RequestBody @Valid PlayingDetailsInSeries playingDetailsInSeries) throws InvalidDetailsException {
+    public PlayedSeriesDetails playSeries(@RequestBody @Valid PlayingDetailsInSeries playingDetailsInSeries){
         return seriesService.playSeries(playingDetailsInSeries);
     }
 
     @GetMapping("/getDetails/{id}")
-    public Series getSeriesDetails(@PathVariable String id) throws InvalidDetailsException {
+    public Series getSeriesDetails(@PathVariable String id) {
         return seriesService.getSeriesDetails(id);
     }
 }

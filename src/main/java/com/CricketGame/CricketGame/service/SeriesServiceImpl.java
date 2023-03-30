@@ -23,7 +23,7 @@ public class SeriesServiceImpl implements SeriesService {
     private SeriesRepository seriesRepository;
 
     @Override
-    public PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries) throws InvalidDetailsException {
+    public PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries){
 
            String firstTeamName = playingDetailsInSeries.getFirstTeamName();
            String secondTeamName = playingDetailsInSeries.getSecondTeamName();
@@ -89,7 +89,7 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public Series getSeriesDetails(String id) throws InvalidDetailsException {
+    public Series getSeriesDetails(String id) {
         // Exception halndling left
         return seriesRepository.findById(id)
                 .orElseThrow( ()-> new InvalidDetailsException("No series details found with id " + id)) ;

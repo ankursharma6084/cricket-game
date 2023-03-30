@@ -6,7 +6,7 @@ import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Series;
 
 public interface SeriesService {
-    PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries) throws InvalidDetailsException;
+    PlayedSeriesDetails playSeries(PlayingDetailsInSeries playingDetailsInSeries);
 
-    Series getSeriesDetails(String id) throws InvalidDetailsException;
+    Series getSeriesDetails(String id);
 }

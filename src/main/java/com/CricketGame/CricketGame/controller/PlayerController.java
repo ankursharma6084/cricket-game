@@ -1,7 +1,7 @@
 package com.CricketGame.CricketGame.controller;
 
 
-import com.CricketGame.CricketGame.converter.PlayerPerformance;
+import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.service.PlayerService;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/player")
@@ -25,18 +24,20 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
+    // validation required
     @PostMapping("/create")
-    public String createPlayer(@RequestBody Player player){
+    public Player createPlayer(@RequestBody Player player){
            return playerService.createPlayer(player);
     }
 
+    // validation required
     @PutMapping("/update/{id}")
-    public String updatePlayer(@RequestBody Player player, @PathVariable String id){
+    public Player updatePlayer(@RequestBody Player player, @PathVariable String id){
          return playerService.updatePlayer(player, id);
     }
 
     @GetMapping("/{playerId}/match/{matchId}")
-    public PlayerPerformance getPlayerPerformance(@PathVariable String playerId, @PathVariable String matchId) throws InvalidDetailsException {
+    public PlayerPerformance getPlayerPerformance(@PathVariable String playerId, @PathVariable String matchId){
            return playerService.getPlayerPerformance(playerId, matchId);
     }
 
@@ -44,17 +45,17 @@ public class PlayerController {
     // highest wicket taker in series, highest run scorer in series
 
     @GetMapping("/byName/{name}")
-    public List<Player> getPlayerByName(@PathVariable String name) throws InvalidDetailsException {
+    public List<Player> getPlayerByName(@PathVariable String name){
         return playerService.getPlayerByname(name);
     }
 
     @GetMapping("/byId/{id}")
-    public Player getPlayerById(@PathVariable String id) throws InvalidDetailsException {
+    public Player getPlayerById(@PathVariable String id) {
         return playerService.getPlayerById(id);
     }
 
     @GetMapping("/byTeamId/{team}")
-    public List<Player> getPlayerByTeam(@PathVariable String team) throws InvalidDetailsException {
+    public List<Player> getPlayerByTeam(@PathVariable String team) {
         return playerService.getPlayerByTeam(team);
     }
 

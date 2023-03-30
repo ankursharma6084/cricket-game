@@ -18,7 +18,7 @@ import java.util.Scanner;
 @Service
 public class PlayMatch {
 
-    public Match play(Match match, TeamService teamService) throws InvalidDetailsException {
+    public Match play(Match match, TeamService teamService){
         String battingTeam;
         String bowlingTeam;
         String tossWinner;
@@ -88,7 +88,7 @@ public class PlayMatch {
         return match;
     }
 
-    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService) throws InvalidDetailsException {
+    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService){
         Team team = teamService.getTeamById(battingTeam);
         ArrayList<String> teamAMatches = team.getMatches();
         teamAMatches.add(match.getId());

@@ -26,8 +26,7 @@ public class MatchServiceImpl implements MatchService{
 
     // write in converter
     @Override
-    public PlayedMatchDetails play(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat)
-                                   throws InvalidDetailsException {
+    public PlayedMatchDetails play(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat) {
         Match match = playMatch(teamA, teamB, numberOfOvers, playingFormat);
 
         String winningTeam = "";
@@ -55,13 +54,12 @@ public class MatchServiceImpl implements MatchService{
     }
 
     @Override
-    public Match playInningsMatch(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat)
-                                  throws InvalidDetailsException {
+    public Match playInningsMatch(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat) {
         return playMatch(teamA, teamB, numberOfOvers, playingFormat);
     }
 
     @Override
-    public List<MatchSummary> getAllMatches() throws InvalidDetailsException {
+    public List<MatchSummary> getAllMatches() {
         List<MatchSummary> matchSummaries = new ArrayList<>();
         List<Match> matches = matchRepository.findAll();
         for (Match match: matches){
@@ -71,7 +69,7 @@ public class MatchServiceImpl implements MatchService{
         return matchSummaries;
     }
 
-    private MatchSummary createMatchSummary(Match match) throws InvalidDetailsException {
+    private MatchSummary createMatchSummary(Match match)  {
         Team teamA = teamService.getTeamById(match.getFirstTeamId()) ;
         Team teamB = teamService.getTeamById(match.getSecondTeamId()) ;
 
@@ -84,7 +82,7 @@ public class MatchServiceImpl implements MatchService{
     }
 
     @Override
-    public List<MatchSummary> getMatchesPlayedByATeam(String id) throws InvalidDetailsException {
+    public List<MatchSummary> getMatchesPlayedByATeam(String id)  {
         List<MatchSummary> matchSummaries = new ArrayList<>();
         List<Match> matches = matchRepository.findAll();
         for (Match match: matches){
@@ -96,7 +94,7 @@ public class MatchServiceImpl implements MatchService{
     }
 
     @Override
-    public Match getMatchDetailsById(String id) throws InvalidDetailsException {
+    public Match getMatchDetailsById(String id) {
            return matchRepository.findById(id)
                    .orElseThrow( ()-> new InvalidDetailsException("No match details found with id " + id)) ;
     }

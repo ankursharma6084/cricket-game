@@ -26,8 +26,6 @@ public class Player {
     private int numberOfWicketsTaken ;
 
     public Player(String name, PlayerCategory playerCategory, String teamId){
-           UUID uuid = UUID.randomUUID() ;
-           id = uuid.toString();
            this.name = name ;
            this.playerCategory = playerCategory;
            this.teamId = teamId;

@@ -25,22 +25,22 @@ public class MatchController {
        @Autowired
        private MatchService matchService;
        @GetMapping("/play")
-       public PlayedMatchDetails play(@RequestBody @Valid PlayingDetails playingDetails) throws InvalidDetailsException {
+       public PlayedMatchDetails play(@RequestBody @Valid PlayingDetails playingDetails){
                return teamNameToMatchConverter.play(playingDetails);
        }
 
        @GetMapping("/{id}")
-       public Match getMatchDetailsById(@PathVariable String id) throws InvalidDetailsException {
+       public Match getMatchDetailsById(@PathVariable String id){
               return matchService.getMatchDetailsById(id);
        }
 
        @GetMapping("/all")
-       public List<MatchSummary> getAllMatches() throws InvalidDetailsException {
+       public List<MatchSummary> getAllMatches(){
               return matchService.getAllMatches();
        }
 
        @GetMapping("/byTeam/{id}")
-       public List<MatchSummary> getMatchesPlayedByATeam(@PathVariable String id) throws InvalidDetailsException {
+       public List<MatchSummary> getMatchesPlayedByATeam(@PathVariable String id) {
               return matchService.getMatchesPlayedByATeam(id);
        }
 

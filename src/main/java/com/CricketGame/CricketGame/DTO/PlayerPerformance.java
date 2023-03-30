@@ -1,4 +1,4 @@
-package com.CricketGame.CricketGame.converter;
+package com.CricketGame.CricketGame.DTO;
 
 import com.CricketGame.CricketGame.constants.PlayerCategory;
 import lombok.AllArgsConstructor;

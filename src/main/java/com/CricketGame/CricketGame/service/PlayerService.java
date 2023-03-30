@@ -1,25 +1,22 @@
 package com.CricketGame.CricketGame.service;
 
-import com.CricketGame.CricketGame.converter.PlayerPerformance;
-import com.CricketGame.CricketGame.exception.InvalidDetailsException;
+import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.model.Player;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PlayerService {
-    String createPlayer(Player player);
+    Player createPlayer(Player player);
 
-    String updatePlayer(Player player, String id);
+    Player updatePlayer(Player player, String id);
 
-    List<Player> getPlayerByname(String name) throws InvalidDetailsException;
+    List<Player> getPlayerByname(String name) ;
 
-    List<Player> getPlayerByTeam(String team) throws InvalidDetailsException;
+    List<Player> getPlayerByTeam(String team) ;
 
     String deletePlayer(String id);
 
-    Player getPlayerById(String id) throws InvalidDetailsException;
+    Player getPlayerById(String id) ;
 
-    PlayerPerformance getPlayerPerformance(String playerId, String matchId) throws InvalidDetailsException;
+    PlayerPerformance getPlayerPerformance(String playerId, String matchId) ;
 }

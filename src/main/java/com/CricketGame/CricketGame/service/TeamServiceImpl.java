@@ -5,6 +5,7 @@ import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.repository.PlayerRepository;
 import com.CricketGame.CricketGame.repository.TeamRepository;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,36 +20,41 @@ public class TeamServiceImpl implements TeamService{
     @Autowired
     private PlayerRepository playerRepository;
     @Override
-    public String createTeam(Team team) {
+    public Team createTeam(Team team) {
         // Doubt how to handle error in saving data to mongodb
-        teamRepository.save(team);
-        return "Team created successfully";
+        Team teamResponse = teamRepository.save(team);
+        if(teamResponse.equals(null)){
+            throw new MongoException("Team details not saved. Please try again");
+        }
+        return teamResponse;
     }
 
     @Override
-    public String updateTeam(Team team, String id) {
+    public Team updateTeam(Team team, String id) {
         // validate id
         if(team.getId().equals(id)){
             team.setId(id);
-            teamRepository.save(team);
-            return "Team updated successfully";
+            Team teamResponse = teamRepository.save(team);
+            if(teamResponse.equals(null)){
+                throw new MongoException("Team details not saved. Please try again");
+            }
+            return teamResponse;
         }
 
         else {
-            return "Please enter valid team id and corresponding details";
+            throw new InvalidDetailsException("Please give the same team Id in request body and Path Variable");
         }
     }
 
     @Override
-    public Team getTeamByname(String name) throws InvalidDetailsException {
+    public Team getTeamByname(String name) {
         return teamRepository.findByName(name)
                 .orElseThrow( ()-> new InvalidDetailsException("Team not found with name " + name)) ;
     }
 
     @Override
-    public Team getTeamById(String id) throws InvalidDetailsException {
-        return teamRepository.findById(id)
-                .orElseThrow( ()-> new InvalidDetailsException("Team not found with id " + id)) ;
+    public Team getTeamById(String id) {
+        return teamRepository.findById(id).orElseThrow(()-> new InvalidDetailsException("Not found"));
     }
 
     @Override
@@ -64,7 +70,7 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public List<Player> getAllPlayers(String id) throws InvalidDetailsException {
+    public List<Player> getAllPlayers(String id) {
         List<String> playerIds = teamRepository.findById(id).get().getPlayers();
         List<Player> players = new ArrayList<>();
         for(String playerId: playerIds){

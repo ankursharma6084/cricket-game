@@ -8,14 +8,13 @@ import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Team;
 
 public interface MatchService {
-    PlayedMatchDetails play(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat)
-                            throws InvalidDetailsException;
+    PlayedMatchDetails play(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat);
 
-    Match getMatchDetailsById(String id) throws InvalidDetailsException;
+    Match getMatchDetailsById(String id);
 
-    Match playInningsMatch(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat) throws InvalidDetailsException;
+    Match playInningsMatch(Team teamA, Team teamB, int numberOfOvers, PlayingFormat playingFormat);
 
-    List<MatchSummary> getAllMatches() throws InvalidDetailsException;
+    List<MatchSummary> getAllMatches();
 
-    List<MatchSummary> getMatchesPlayedByATeam(String id) throws InvalidDetailsException;
+    List<MatchSummary> getMatchesPlayedByATeam(String id);
 }

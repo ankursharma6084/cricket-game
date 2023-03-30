@@ -1,22 +1,21 @@
 package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.constants.Coin;
-import com.CricketGame.CricketGame.converter.PlayerPerformance;
+import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.BowlerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.PlayerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.ScoreCard;
-import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.repository.MatchRepository;
 import com.CricketGame.CricketGame.repository.PlayerRepository;
 import com.CricketGame.CricketGame.repository.TeamRepository;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -28,24 +27,30 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private TeamRepository teamRepository;
     @Override
-    public String createPlayer(Player player) {
+    public Player createPlayer(Player player) {
         // further validation
-        playerRepository.save(player);
-        return "Player created";
+        Player savedPlayer = playerRepository.save(player);
+        if(savedPlayer.equals(null)){
+            throw new MongoException("Player details not saved. Please try again");
+        }
+        return savedPlayer;
     }
 
     @Override
-    public String updatePlayer(Player player, String id) {
+    public Player updatePlayer(Player player, String id) {
         // further validation
 
         // Does the same kind of check has to be required for player also ??
-           player.setId(id);
-           playerRepository.save(player);
-           return "Player updated";
+        player.setId(id);
+        Player savedPlayer = playerRepository.save(player);
+        if(savedPlayer.equals(null)){
+            throw new MongoException("Player details not saved. Please try again");
+        }
+        return savedPlayer;
     }
 
     @Override
-    public List<Player> getPlayerByname(String name) throws InvalidDetailsException {
+    public List<Player> getPlayerByname(String name) {
         // Check
         List<Player> players = playerRepository.findByName(name);
         if(players.isEmpty()){
@@ -55,7 +60,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<Player> getPlayerByTeam(String teamId) throws InvalidDetailsException {
+    public List<Player> getPlayerByTeam(String teamId) {
 
         teamRepository.findById(teamId)
                 .orElseThrow( ()-> new InvalidDetailsException("Team not found with id " + teamId)) ;
@@ -75,13 +80,13 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player getPlayerById(String id) throws InvalidDetailsException {
+    public Player getPlayerById(String id) {
            return playerRepository.findById(id)
                    .orElseThrow( ()-> new InvalidDetailsException("Player not found with id " + id)) ;
     }
 
     @Override
-    public PlayerPerformance getPlayerPerformance(String playerId, String matchId) throws InvalidDetailsException {
+    public PlayerPerformance getPlayerPerformance(String playerId, String matchId) {
         Match match = matchRepository.findById(matchId)
                 .orElseThrow( ()-> new InvalidDetailsException("Match not found with id " + matchId)) ;
         Player player = getPlayerById(playerId);

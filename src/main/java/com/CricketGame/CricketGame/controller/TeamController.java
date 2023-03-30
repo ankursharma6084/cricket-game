@@ -27,23 +27,25 @@ public class TeamController {
         return "Server is Up and running";
     }
 
+    // validation required
     @PostMapping("/create")
-    public String createTeam(@RequestBody Team team){
+    public Team createTeam(@RequestBody Team team){
         return teamService.createTeam(team);
     }
 
+    // validation required
     @PutMapping("/update/{id}")
-    public String updateTeam(@RequestBody Team team, @PathVariable String id){
+    public Team updateTeam(@RequestBody Team team, @PathVariable String id){
         return teamService.updateTeam(team, id);
     }
 
     @GetMapping("/byName/{name}")
-    public Team getTeamByName(@PathVariable String name) throws InvalidDetailsException {
+    public Team getTeamByName(@PathVariable String name){
         return teamService.getTeamByname(name);
     }
 
     @GetMapping("/byId/{id}")
-    public Team getTeamById(@PathVariable String id) throws InvalidDetailsException {
+    public Team getTeamById(@PathVariable String id) {
         return teamService.getTeamById(id);
     }
 
@@ -58,7 +60,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}/getAllPlayers")
-    public List<Player> getAllPlayers(@PathVariable String id) throws InvalidDetailsException {
+    public List<Player> getAllPlayers(@PathVariable String id) {
         return teamService.getAllPlayers(id);
     }
 

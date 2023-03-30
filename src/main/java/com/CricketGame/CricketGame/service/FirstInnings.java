@@ -7,7 +7,7 @@ import com.CricketGame.CricketGame.model.Team;
 
 
 public class FirstInnings extends Innings {
-    public FirstInnings(TeamService teamService, String battingTeam, String bowlingTeam, int numberofOvers) throws InvalidDetailsException {
+    public FirstInnings(TeamService teamService, String battingTeam, String bowlingTeam, int numberofOvers){
         super(teamService, battingTeam, bowlingTeam, numberofOvers);
     }
 

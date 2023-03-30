@@ -27,7 +27,7 @@ public abstract class Innings {
     protected ScoreCard scoreCard ;
     protected ArrayList<Player> batsmenYetToBat;
 
-    public Innings(TeamService teamService, String battingTeam, String bowlingTeam, int numberOfOvers) throws InvalidDetailsException {
+    public Innings(TeamService teamService, String battingTeam, String bowlingTeam, int numberOfOvers) {
         this.teamService = teamService;
         this.battingTeam = battingTeam;
         this.bowlingTeam = bowlingTeam;
@@ -39,7 +39,7 @@ public abstract class Innings {
         currentBowler = null;
     }
 
-    private void addAllBowlersFromBowlingTeam() throws InvalidDetailsException {
+    private void addAllBowlersFromBowlingTeam() {
         ArrayList<BowlerPerformanceInMatch> bowlers = scoreCard.getBowlerPerformance();
         for(Player player: teamService.getAllPlayers(bowlingTeam)){
              if(player.getPlayerCategory() != PlayerCategory.BATSMAN)
@@ -91,7 +91,7 @@ public abstract class Innings {
         return player;
     }
 
-    private ArrayList<Player> getAllPlayers() throws InvalidDetailsException {
+    private ArrayList<Player> getAllPlayers() {
         List<Player> players = teamService.getAllPlayers(battingTeam);
         batsmenYetToBat = new ArrayList<>(players);
         return batsmenYetToBat;
