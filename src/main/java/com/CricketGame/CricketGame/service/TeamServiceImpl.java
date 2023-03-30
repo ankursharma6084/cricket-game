@@ -66,7 +66,8 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public List<Player> getAllPlayers(String id) {
-        List<String> playerIds = teamRepository.findById(id).get().getPlayers();
+        Team team = getTeamById(id) ;
+        List<String> playerIds = team.getPlayers();
         List<Player> players = new ArrayList<>();
         for(String playerId: playerIds){
             // Exception Handling Left

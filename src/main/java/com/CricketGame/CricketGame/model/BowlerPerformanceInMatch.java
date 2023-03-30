@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BowlerPerformanceInMatch {
+    private String playerId;
     private String name ;
     private int oversBowled ;
     private int ballsBowled ;
@@ -15,7 +16,8 @@ public class BowlerPerformanceInMatch {
     private int wicketsTaken ;
     private int runsScoredAgainst;
 
-    public BowlerPerformanceInMatch(String name){
+    public BowlerPerformanceInMatch(String id,String name){
+        this.playerId = id ;
         this.name = name ;
         oversBowled = 0;
         ballsBowled = 0;

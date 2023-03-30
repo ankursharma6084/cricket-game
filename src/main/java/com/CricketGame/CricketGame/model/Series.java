@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Series")
+@Document(collection = "series")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Series {
        @Id

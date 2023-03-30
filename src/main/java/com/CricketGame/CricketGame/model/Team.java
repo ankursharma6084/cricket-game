@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Team")
+@Document(collection = "team")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Team {
     @Id

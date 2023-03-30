@@ -9,7 +9,7 @@ import java.util.List;
 public interface PlayerService {
     Player createPlayer(Player player);
 
-    Player updatePlayer(PlayerInput playerInput, String id);
+    Player updatePlayer(Player player, String id);
 
     List<Player> getPlayerByname(String name) ;
 
@@ -18,6 +18,4 @@ public interface PlayerService {
     String deletePlayer(String id);
 
     Player getPlayerById(String id) ;
-
-    PlayerPerformance getPlayerPerformance(String playerId, String matchId) ;
 }

@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Player")
+@Document(collection = "player")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Player {
     @Id
@@ -19,8 +19,9 @@ public class Player {
     private String name;
     private PlayerCategory playerCategory;
     private String teamId;
+    private int runsScored;
     private int numberOfFoursScored;
-    private int numberofSixesScored;
+    private int numberOfSixesScored;
     private int numberOfWicketsTaken ;
 
     public Player(String name, PlayerCategory playerCategory, String teamId){
@@ -28,7 +29,8 @@ public class Player {
            this.playerCategory = playerCategory;
            this.teamId = teamId;
            numberOfFoursScored = 0;
-           numberofSixesScored = 0;
+           numberOfSixesScored = 0;
            numberOfWicketsTaken = 0;
+           runsScored = 0 ;
     }
 }

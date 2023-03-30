@@ -16,7 +16,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Match")
+@Document(collection = "match")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Match {
     @Id

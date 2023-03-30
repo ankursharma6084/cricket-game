@@ -2,36 +2,26 @@ package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.constants.Coin;
 import com.CricketGame.CricketGame.constants.PlayingFormat;
-import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.BowlerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Over;
+import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.PlayerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.ScoreCard;
-import com.CricketGame.CricketGame.model.Team;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 @Service
 public class PlayMatch {
 
-    public Match play(Match match, TeamService teamService){
+    public Match play(Match match, TeamService teamService, PlayerService playerService){
         String battingTeam;
         String bowlingTeam;
         String tossWinner;
         Coin winningTossTeamChoice;
         ArrayList<ScoreCard> scoreCard = new ArrayList<>() ;
-        //System.out.println(match.getTeamA()+ " " +match.getTeamB());
-
-//        // Selecting Match Format
-//        System.out.println(" Select Match Format to Play ");
-//        System.out.println("(Press 1 for T05 , 2 for T10, 3 for T20, 4 for ODI and 5 for Custom Format)");
-//        Scanner sc = new Scanner(System.in);
-//        int choiceOfFormat = sc.nextInt() ;
-//        int numberOfOvers = getNumberofOversFromchoiceOfFormat(choiceOfFormat) ;
 
         int numberOfOvers;
 
@@ -77,6 +67,13 @@ public class PlayMatch {
         match.setScoreCard(scoreCard);
         match.setWinningTeamId(getWinningTeam(firstInningsScoreCard, secondInningsScoreCard));
 
+        // updating player's career scores
+        updatePlayerBattingCareer(firstInningsScoreCard.getPlayerPerformance(), playerService);
+        updatePlayerBattingCareer(secondInningsScoreCard.getPlayerPerformance(), playerService);
+
+        updatePlayerBowlingCareer(firstInningsScoreCard.getBowlerPerformance(), playerService);
+        updatePlayerBowlingCareer(secondInningsScoreCard.getBowlerPerformance(), playerService);
+
         // Getting Match outcome and Printing ScoreCard
         showOutcomeofMatch(firstInningsScoreCard, secondInningsScoreCard);
         printScorecard(firstInningsScoreCard, secondInningsScoreCard);
@@ -85,13 +82,25 @@ public class PlayMatch {
         return match;
     }
 
-//    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService){
-//        Team team = teamService.getTeamById(battingTeam);
-//        ArrayList<String> teamAMatches = team.getMatches();
-//        teamAMatches.add(match.getId());
-//        team.setMatches(teamAMatches);
-//        teamService.updateTeam(team, battingTeam);
-//    }
+    private void updatePlayerBowlingCareer(ArrayList<BowlerPerformanceInMatch> bowlerPerformance ,
+                                           PlayerService playerService) {
+                 for(BowlerPerformanceInMatch bowler : bowlerPerformance){
+                     Player player = playerService.getPlayerById(bowler.getPlayerId()) ;
+                     player.setNumberOfWicketsTaken(player.getNumberOfWicketsTaken()+bowler.getWicketsTaken());
+                     playerService.updatePlayer(player , player.getId());
+                 }
+    }
+
+    private void updatePlayerBattingCareer(ArrayList<PlayerPerformanceInMatch> playerPerformance ,
+                                           PlayerService playerService) {
+                for(PlayerPerformanceInMatch curPlayer: playerPerformance){
+                    Player player = playerService.getPlayerById(curPlayer.getPlayerId()) ;
+                    player.setNumberOfFoursScored(player.getNumberOfFoursScored()+ curPlayer.getFours());
+                    player.setNumberOfSixesScored(player.getNumberOfSixesScored()+ curPlayer.getSixes());
+                    player.setRunsScored(player.getRunsScored()+ curPlayer.getRunsScored());
+                    playerService.updatePlayer(player , player.getId());
+                }
+    }
 
     private void setPlayingFormat(int numberOfOvers, Match match) {
             if(numberOfOvers == 5){

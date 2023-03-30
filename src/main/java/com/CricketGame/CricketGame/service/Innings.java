@@ -43,7 +43,7 @@ public abstract class Innings {
         ArrayList<BowlerPerformanceInMatch> bowlers = scoreCard.getBowlerPerformance();
         for(Player player: teamService.getAllPlayers(bowlingTeam)){
              if(player.getPlayerCategory() != PlayerCategory.BATSMAN)
-                 bowlers.add(new BowlerPerformanceInMatch(player.getName())) ;
+                 bowlers.add(new BowlerPerformanceInMatch(player.getId(), player.getName())) ;
         }
 
         if(bowlers.size() == 0){
@@ -79,14 +79,14 @@ public abstract class Innings {
     }
 
     protected PlayerPerformanceInMatch getNewPlayerInField() {
-        PlayerPerformanceInMatch player = batsmanComingtoTheField(batsmenYetToBat.get(0).getName(),
-                                          batsmenYetToBat.get(0).getPlayerCategory());
+        PlayerPerformanceInMatch player = batsmanComingtoTheField(batsmenYetToBat.get(0).getId() ,
+                                          batsmenYetToBat.get(0).getName(), batsmenYetToBat.get(0).getPlayerCategory());
         batsmenYetToBat.remove(0);
         return player ;
     }
 
-    protected PlayerPerformanceInMatch batsmanComingtoTheField(String name, PlayerCategory playerCategory) {
-        PlayerPerformanceInMatch player = new PlayerPerformanceInMatch(name);
+    protected PlayerPerformanceInMatch batsmanComingtoTheField(String id, String name, PlayerCategory playerCategory) {
+        PlayerPerformanceInMatch player = new PlayerPerformanceInMatch(id , name);
         player.setPlayerCategory(playerCategory);
         return player;
     }

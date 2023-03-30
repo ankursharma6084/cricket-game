@@ -41,11 +41,6 @@ public class PlayerController {
          return playerInputToPlayerConverter.updatePlayer(player, id);
     }
 
-    @GetMapping("/{playerId}/match/{matchId}")
-    public PlayerPerformance getPlayerPerformance(@PathVariable String playerId, @PathVariable String matchId){
-           return playerService.getPlayerPerformance(playerId, matchId);
-    }
-
     // player in series
     // highest wicket taker in series, highest run scorer in series
 

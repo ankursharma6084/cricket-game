@@ -2,6 +2,7 @@ package com.CricketGame.CricketGame.service;
 import java.util.List;
 import com.CricketGame.CricketGame.DTO.MatchSummary;
 import com.CricketGame.CricketGame.DTO.PlayedMatchDetails;
+import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.constants.PlayingFormat;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Match;
@@ -17,4 +18,5 @@ public interface MatchService {
     List<MatchSummary> getAllMatches();
 
     List<MatchSummary> getMatchesPlayedByATeam(String id);
+    PlayerPerformance getPlayerPerformance(String playerId, String matchId) ;
 }

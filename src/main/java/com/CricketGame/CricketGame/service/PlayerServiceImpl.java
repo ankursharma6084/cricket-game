@@ -23,8 +23,6 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
-    private MatchService matchService;
-    @Autowired
     private TeamService teamService;
     @Override
     public Player createPlayer(Player player) {
@@ -47,20 +45,10 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player updatePlayer(PlayerInput playerInput, String id) {
+    public Player updatePlayer(Player player, String id) {
         // further validation
-         Player player = getPlayerById(id) ;
         // Does the same kind of check has to be required for player also ??
 
-        // write logic for if we change teamId of a player then what to do
-        if(! playerInput.getTeamId().equals(player.getTeamId())) {
-               throw new InvalidDetailsException("Team of a player cannot be changed") ;
-//             List<Player> playersFromOldTeam = teamService.getAllPlayers(player1.getTeamId()) ;
-        }
-
-//        player.setId(id);
-        player.setPlayerCategory(playerInput.getPlayerCategory());
-        player.setName(playerInput.getName());
         Player savedPlayer = playerRepository.save(player);
         if(savedPlayer.equals(null)){
             throw new MongoException("Player details not saved. Please try again");
@@ -102,54 +90,4 @@ public class PlayerServiceImpl implements PlayerService {
            return playerRepository.findById(id)
                    .orElseThrow( ()-> new InvalidDetailsException("Player not found with id " + id)) ;
     }
-
-    @Override
-    public PlayerPerformance getPlayerPerformance(String playerId, String matchId) {
-        Match match = matchService.getMatchDetailsById(matchId);
-
-        Player player = getPlayerById(playerId);
-
-        if(match.getTossWinnerId().equals(player.getTeamId()) )
-        {
-            if( match.getWinningTossTeamChoice() == Coin.Head )
-                return setPlayerPerformanceDetails(match.getScoreCard().get(0) , match.getScoreCard().get(1), player.getName()) ;
-            else
-                return setPlayerPerformanceDetails(match.getScoreCard().get(1) , match.getScoreCard().get(0), player.getName()) ;
-        }
-
-        else{
-            if( match.getWinningTossTeamChoice() == Coin.Head )
-                return setPlayerPerformanceDetails(match.getScoreCard().get(1) , match.getScoreCard().get(0), player.getName()) ;
-            else
-                return setPlayerPerformanceDetails(match.getScoreCard().get(0) , match.getScoreCard().get(1), player.getName()) ;
-        }
-
-    }
-
-    private PlayerPerformance setPlayerPerformanceDetails(ScoreCard battingScoreCard, ScoreCard bowlingScorecard
-                                                          , String playerName) {
-            PlayerPerformance playerPerformance = new PlayerPerformance();
-            for(PlayerPerformanceInMatch playerPerformanceInMatch : battingScoreCard.getPlayerPerformance()){
-                if(playerPerformanceInMatch.getPlayerName().equals(playerName)){
-                    playerPerformance.setPlayerName(playerName);
-                    playerPerformance.setPlayerCategory(playerPerformanceInMatch.getPlayerCategory());
-                    playerPerformance.setRunsScored(playerPerformanceInMatch.getRunsScored());
-                    playerPerformance.setFours(playerPerformanceInMatch.getFours());
-                    playerPerformance.setSixes(playerPerformanceInMatch.getSixes());
-                }
-            }
-
-            for(BowlerPerformanceInMatch bowlerPerformanceInMatch: bowlingScorecard.getBowlerPerformance()){
-                if(bowlerPerformanceInMatch.getName().equals(playerName)){
-                    playerPerformance.setOversBowled(bowlerPerformanceInMatch.getOversBowled());
-                    playerPerformance.setBallsBowled(bowlerPerformanceInMatch.getBallsBowled());
-                    playerPerformance.setEconomy(bowlerPerformanceInMatch.getEconomy());
-                    playerPerformance.setRunsScoredAgainst(bowlerPerformanceInMatch.getRunsScoredAgainst());
-                    playerPerformance.setWicketsTaken(bowlerPerformanceInMatch.getWicketsTaken());
-                }
-            }
-            return playerPerformance;
-    }
-
-
 }

@@ -2,10 +2,16 @@ package com.CricketGame.CricketGame.service;
 
 import com.CricketGame.CricketGame.DTO.MatchSummary;
 import com.CricketGame.CricketGame.DTO.PlayedMatchDetails;
+import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.DTO.PlayingDetails;
+import com.CricketGame.CricketGame.constants.Coin;
 import com.CricketGame.CricketGame.constants.PlayingFormat;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
+import com.CricketGame.CricketGame.model.BowlerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.Match;
+import com.CricketGame.CricketGame.model.Player;
+import com.CricketGame.CricketGame.model.PlayerPerformanceInMatch;
+import com.CricketGame.CricketGame.model.ScoreCard;
 import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,8 @@ public class MatchServiceImpl implements MatchService{
     private MatchRepository matchRepository;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private PlayerService playerService;
 
     // write in converter
     @Override
@@ -48,7 +56,7 @@ public class MatchServiceImpl implements MatchService{
         Match match = new Match(teamA.getId() , teamB.getId()) ;
         match.setNumberOfOvers(numberOfOvers);
         match.setPlayingFormat(playingFormat);
-        match = playMatch.play(match, teamService);
+        match = playMatch.play(match, teamService, playerService);
         matchRepository.save(match);
         return match;
     }
@@ -99,5 +107,51 @@ public class MatchServiceImpl implements MatchService{
                    .orElseThrow( ()-> new InvalidDetailsException("No match details found with id " + id)) ;
     }
 
+    public PlayerPerformance getPlayerPerformance(String playerId, String matchId) {
+        Match match = getMatchDetailsById(matchId);
+
+        Player player = playerService.getPlayerById(playerId);
+
+        if(match.getTossWinnerId().equals(player.getTeamId()) )
+        {
+            if( match.getWinningTossTeamChoice() == Coin.Head )
+                return setPlayerPerformanceDetails(match.getScoreCard().get(0) , match.getScoreCard().get(1), player.getName()) ;
+            else
+                return setPlayerPerformanceDetails(match.getScoreCard().get(1) , match.getScoreCard().get(0), player.getName()) ;
+        }
+
+        else{
+            if( match.getWinningTossTeamChoice() == Coin.Head )
+                return setPlayerPerformanceDetails(match.getScoreCard().get(1) , match.getScoreCard().get(0), player.getName()) ;
+            else
+                return setPlayerPerformanceDetails(match.getScoreCard().get(0) , match.getScoreCard().get(1), player.getName()) ;
+        }
+
+    }
+
+    private PlayerPerformance setPlayerPerformanceDetails(ScoreCard battingScoreCard, ScoreCard bowlingScorecard
+            , String playerName) {
+        PlayerPerformance playerPerformance = new PlayerPerformance();
+        for(PlayerPerformanceInMatch playerPerformanceInMatch : battingScoreCard.getPlayerPerformance()){
+            if(playerPerformanceInMatch.getPlayerName().equals(playerName)){
+                playerPerformance.setPlayerName(playerName);
+                playerPerformance.setPlayerCategory(playerPerformanceInMatch.getPlayerCategory());
+                playerPerformance.setRunsScored(playerPerformanceInMatch.getRunsScored());
+                playerPerformance.setFours(playerPerformanceInMatch.getFours());
+                playerPerformance.setSixes(playerPerformanceInMatch.getSixes());
+            }
+        }
+
+        for(BowlerPerformanceInMatch bowlerPerformanceInMatch: bowlingScorecard.getBowlerPerformance()){
+            if(bowlerPerformanceInMatch.getName().equals(playerName)){
+                playerPerformance.setOversBowled(bowlerPerformanceInMatch.getOversBowled());
+                playerPerformance.setBallsBowled(bowlerPerformanceInMatch.getBallsBowled());
+                playerPerformance.setEconomy(bowlerPerformanceInMatch.getEconomy());
+                playerPerformance.setRunsScoredAgainst(bowlerPerformanceInMatch.getRunsScoredAgainst());
+                playerPerformance.setWicketsTaken(bowlerPerformanceInMatch.getWicketsTaken());
+            }
+        }
+        return playerPerformance;
+    }
 
 }

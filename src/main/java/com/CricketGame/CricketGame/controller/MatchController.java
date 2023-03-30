@@ -2,6 +2,7 @@ package com.CricketGame.CricketGame.controller;
 
 import com.CricketGame.CricketGame.DTO.MatchSummary;
 import com.CricketGame.CricketGame.DTO.PlayedMatchDetails;
+import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.DTO.PlayingDetails;
 import com.CricketGame.CricketGame.converter.PlayingDetailsToMatchConverter;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
@@ -42,6 +43,11 @@ public class MatchController {
        @GetMapping("/byTeam/{id}")
        public List<MatchSummary> getMatchesPlayedByATeam(@PathVariable String id) {
               return matchService.getMatchesPlayedByATeam(id);
+       }
+
+       @GetMapping("/{matchId}/player/{playerId}")
+       public PlayerPerformance getPlayerPerformance(@PathVariable String playerId, @PathVariable String matchId){
+              return matchService.getPlayerPerformance(playerId, matchId);
        }
 
 }
