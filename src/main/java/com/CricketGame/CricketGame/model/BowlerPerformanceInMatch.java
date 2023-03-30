@@ -1,5 +1,12 @@
 package com.CricketGame.CricketGame.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BowlerPerformanceInMatch {
     private String name ;
     private int oversBowled ;
@@ -7,51 +14,6 @@ public class BowlerPerformanceInMatch {
     private double economy;
     private int wicketsTaken ;
     private int runsScoredAgainst;
-    public int getRunsScoredAgainst() {
-        return runsScoredAgainst;
-    }
-    public void setRunsScoredAgainst(int runsScoredAgainst) {
-        this.runsScoredAgainst = runsScoredAgainst;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getOversBowled() {
-        return oversBowled;
-    }
-
-    public void setOversBowled(int oversBowled) {
-        this.oversBowled = oversBowled;
-    }
-
-    public int getBallsBowled() {
-        return ballsBowled;
-    }
-
-    public void setBallsBowled(int ballsBowled) {
-        this.ballsBowled = ballsBowled;
-    }
-
-    public double getEconomy() {
-        return economy;
-    }
-
-    public void setEconomy(double economy) {
-        this.economy = economy;
-    }
-
-    public int getWicketsTaken() {
-        return wicketsTaken;
-    }
-
-    public void setWicketsTaken(int wicketsTaken) {
-        this.wicketsTaken = wicketsTaken;
-    }
 
     public BowlerPerformanceInMatch(String name){
         this.name = name ;

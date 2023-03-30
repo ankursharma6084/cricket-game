@@ -1,10 +1,13 @@
 package com.CricketGame.CricketGame.controller;
 
 
+import com.CricketGame.CricketGame.DTO.PlayerInput;
 import com.CricketGame.CricketGame.DTO.PlayerPerformance;
+import com.CricketGame.CricketGame.converter.PlayerInputToPlayerConverter;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.service.PlayerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,18 +25,20 @@ import java.util.List;
 public class PlayerController {
 
     @Autowired
-    private PlayerService playerService;
+    private PlayerInputToPlayerConverter playerInputToPlayerConverter;
+    @Autowired
+    private PlayerService playerService ;
 
     // validation required
     @PostMapping("/create")
-    public Player createPlayer(@RequestBody Player player){
-           return playerService.createPlayer(player);
+    public Player createPlayer(@RequestBody @Valid PlayerInput player){
+           return playerInputToPlayerConverter.createPlayer(player);
     }
 
     // validation required
     @PutMapping("/update/{id}")
-    public Player updatePlayer(@RequestBody Player player, @PathVariable String id){
-         return playerService.updatePlayer(player, id);
+    public Player updatePlayer(@RequestBody @Valid PlayerInput player, @PathVariable String id){
+         return playerInputToPlayerConverter.updatePlayer(player, id);
     }
 
     @GetMapping("/{playerId}/match/{matchId}")

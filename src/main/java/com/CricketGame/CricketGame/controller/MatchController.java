@@ -21,12 +21,12 @@ import java.util.List;
 @RequestMapping("/match")
 public class MatchController {
        @Autowired
-       private PlayingDetailsToMatchConverter teamNameToMatchConverter;
+       private PlayingDetailsToMatchConverter playingDetailsToMatchConverter;
        @Autowired
        private MatchService matchService;
        @GetMapping("/play")
        public PlayedMatchDetails play(@RequestBody @Valid PlayingDetails playingDetails){
-               return teamNameToMatchConverter.play(playingDetails);
+               return playingDetailsToMatchConverter.play(playingDetails);
        }
 
        @GetMapping("/{id}")

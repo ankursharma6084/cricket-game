@@ -1,30 +1,21 @@
-package com.CricketGame.CricketGame.model;
+package com.CricketGame.CricketGame.DTO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Team")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Team {
-    @Id
-    private String id;
+public class TeamInput {
+    @NotBlank(message = "Team name is mandatory")
     private String name ;
-    private ArrayList<String> players ;
-
-    public Team(String name){
-        this.name = name ;
-        players = new ArrayList<>() ;
-    }
-
     // Remove these fields from team as they are derived fields
 }

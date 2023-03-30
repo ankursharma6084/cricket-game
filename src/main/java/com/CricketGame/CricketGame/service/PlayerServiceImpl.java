@@ -1,5 +1,6 @@
 package com.CricketGame.CricketGame.service;
 
+import com.CricketGame.CricketGame.DTO.PlayerInput;
 import com.CricketGame.CricketGame.constants.Coin;
 import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
@@ -8,13 +9,13 @@ import com.CricketGame.CricketGame.model.Match;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.PlayerPerformanceInMatch;
 import com.CricketGame.CricketGame.model.ScoreCard;
-import com.CricketGame.CricketGame.repository.MatchRepository;
+import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.repository.PlayerRepository;
-import com.CricketGame.CricketGame.repository.TeamRepository;
 import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,26 +23,44 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
-    private MatchRepository matchRepository;
-
+    private MatchService matchService;
     @Autowired
-    private TeamRepository teamRepository;
+    private TeamService teamService;
     @Override
     public Player createPlayer(Player player) {
         // further validation
+        Team team = teamService.getTeamById(player.getTeamId()) ;
+
         Player savedPlayer = playerRepository.save(player);
         if(savedPlayer.equals(null)){
             throw new MongoException("Player details not saved. Please try again");
         }
+        ArrayList<String> teamPlayers = team.getPlayers() ;
+        // didnt get the reason
+        if(teamPlayers.equals(null)) {
+            teamPlayers = new ArrayList<>();
+        }
+        teamPlayers.add(player.getId()) ;
+        team.setPlayers(teamPlayers);
+        teamService.updateTeam(team , team.getId()) ;
         return savedPlayer;
     }
 
     @Override
-    public Player updatePlayer(Player player, String id) {
+    public Player updatePlayer(PlayerInput playerInput, String id) {
         // further validation
-
+         Player player = getPlayerById(id) ;
         // Does the same kind of check has to be required for player also ??
-        player.setId(id);
+
+        // write logic for if we change teamId of a player then what to do
+        if(! playerInput.getTeamId().equals(player.getTeamId())) {
+               throw new InvalidDetailsException("Team of a player cannot be changed") ;
+//             List<Player> playersFromOldTeam = teamService.getAllPlayers(player1.getTeamId()) ;
+        }
+
+//        player.setId(id);
+        player.setPlayerCategory(playerInput.getPlayerCategory());
+        player.setName(playerInput.getName());
         Player savedPlayer = playerRepository.save(player);
         if(savedPlayer.equals(null)){
             throw new MongoException("Player details not saved. Please try again");
@@ -62,8 +81,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<Player> getPlayerByTeam(String teamId) {
 
-        teamRepository.findById(teamId)
-                .orElseThrow( ()-> new InvalidDetailsException("Team not found with id " + teamId)) ;
+        teamService.getTeamById(teamId);
 
         List<Player> players = playerRepository.findByTeamId(teamId);
         if(players.isEmpty()){
@@ -87,8 +105,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerPerformance getPlayerPerformance(String playerId, String matchId) {
-        Match match = matchRepository.findById(matchId)
-                .orElseThrow( ()-> new InvalidDetailsException("Match not found with id " + matchId)) ;
+        Match match = matchService.getMatchDetailsById(matchId);
+
         Player player = getPlayerById(playerId);
 
         if(match.getTossWinnerId().equals(player.getTeamId()) )
@@ -104,7 +122,6 @@ public class PlayerServiceImpl implements PlayerService {
                 return setPlayerPerformanceDetails(match.getScoreCard().get(1) , match.getScoreCard().get(0), player.getName()) ;
             else
                 return setPlayerPerformanceDetails(match.getScoreCard().get(0) , match.getScoreCard().get(1), player.getName()) ;
-
         }
 
     }

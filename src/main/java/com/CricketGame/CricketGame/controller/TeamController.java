@@ -1,9 +1,14 @@
 package com.CricketGame.CricketGame.controller;
 
+import com.CricketGame.CricketGame.DTO.TeamDetails;
+import com.CricketGame.CricketGame.DTO.TeamInput;
+import com.CricketGame.CricketGame.converter.TeamInputToTeamConverter;
+import com.CricketGame.CricketGame.converter.TeamToTeamDetailsConverter;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.Team;
 import com.CricketGame.CricketGame.service.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,32 +26,34 @@ import java.util.List;
 public class TeamController {
     @Autowired
     private TeamService teamService;
-
+    @Autowired
+    TeamInputToTeamConverter teamInputToTeamConverter;
+    @Autowired
+    TeamToTeamDetailsConverter teamToTeamDetailsConverter;
     @GetMapping
     public String team(){
         return "Server is Up and running";
     }
 
-    // validation required
+    // validation required does @Valid not work with documents
     @PostMapping("/create")
-    public Team createTeam(@RequestBody Team team){
-        return teamService.createTeam(team);
+    public Team createTeam(@RequestBody @Valid TeamInput team){
+        return teamInputToTeamConverter.createTeam(team);
     }
 
     // validation required
     @PutMapping("/update/{id}")
-    public Team updateTeam(@RequestBody Team team, @PathVariable String id){
-        return teamService.updateTeam(team, id);
+    public Team updateTeam(@RequestBody @Valid TeamInput team, @PathVariable String id){
+        return teamInputToTeamConverter.updateTeam(team, id);
     }
-
     @GetMapping("/byName/{name}")
-    public Team getTeamByName(@PathVariable String name){
-        return teamService.getTeamByname(name);
+    public TeamDetails getTeamByName(@PathVariable String name){
+        return teamToTeamDetailsConverter.getTeamByName(name);
     }
 
     @GetMapping("/byId/{id}")
-    public Team getTeamById(@PathVariable String id) {
-        return teamService.getTeamById(id);
+    public TeamDetails getTeamById(@PathVariable String id) {
+        return teamToTeamDetailsConverter.getTeamById(id);
     }
 
     @DeleteMapping("/delete/{id}")

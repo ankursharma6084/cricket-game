@@ -1,5 +1,7 @@
 package com.CricketGame.CricketGame.service;
 
+import com.CricketGame.CricketGame.DTO.TeamDetails;
+import com.CricketGame.CricketGame.DTO.TeamInput;
 import com.CricketGame.CricketGame.exception.InvalidDetailsException;
 import com.CricketGame.CricketGame.model.Player;
 import com.CricketGame.CricketGame.model.Team;
@@ -14,7 +16,6 @@ import java.util.List;
 
 @Service
 public class TeamServiceImpl implements TeamService{
-
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
@@ -32,29 +33,23 @@ public class TeamServiceImpl implements TeamService{
     @Override
     public Team updateTeam(Team team, String id) {
         // validate id
-        if(team.getId().equals(id)){
-            team.setId(id);
             Team teamResponse = teamRepository.save(team);
             if(teamResponse.equals(null)){
                 throw new MongoException("Team details not saved. Please try again");
             }
             return teamResponse;
-        }
-
-        else {
-            throw new InvalidDetailsException("Please give the same team Id in request body and Path Variable");
-        }
     }
 
     @Override
     public Team getTeamByname(String name) {
         return teamRepository.findByName(name)
                 .orElseThrow( ()-> new InvalidDetailsException("Team not found with name " + name)) ;
+
     }
 
     @Override
     public Team getTeamById(String id) {
-        return teamRepository.findById(id).orElseThrow(()-> new InvalidDetailsException("Not found"));
+        return   teamRepository.findById(id).orElseThrow(()-> new InvalidDetailsException("Team not found with id " + id));
     }
 
     @Override

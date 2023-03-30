@@ -1,5 +1,6 @@
 package com.CricketGame.CricketGame.service;
 
+import com.CricketGame.CricketGame.DTO.PlayerInput;
 import com.CricketGame.CricketGame.DTO.PlayerPerformance;
 import com.CricketGame.CricketGame.model.Player;
 
@@ -8,7 +9,7 @@ import java.util.List;
 public interface PlayerService {
     Player createPlayer(Player player);
 
-    Player updatePlayer(Player player, String id);
+    Player updatePlayer(PlayerInput playerInput, String id);
 
     List<Player> getPlayerByname(String name) ;
 

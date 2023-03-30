@@ -81,20 +81,17 @@ public class PlayMatch {
         showOutcomeofMatch(firstInningsScoreCard, secondInningsScoreCard);
         printScorecard(firstInningsScoreCard, secondInningsScoreCard);
 
-        setMatchesInTeamDetails(match, battingTeam, teamService);
-        setMatchesInTeamDetails(match, bowlingTeam, teamService);
-
         // saving Match in Database
         return match;
     }
 
-    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService){
-        Team team = teamService.getTeamById(battingTeam);
-        ArrayList<String> teamAMatches = team.getMatches();
-        teamAMatches.add(match.getId());
-        team.setMatches(teamAMatches);
-        teamService.updateTeam(team, battingTeam);
-    }
+//    private void setMatchesInTeamDetails(Match match, String battingTeam, TeamService teamService){
+//        Team team = teamService.getTeamById(battingTeam);
+//        ArrayList<String> teamAMatches = team.getMatches();
+//        teamAMatches.add(match.getId());
+//        team.setMatches(teamAMatches);
+//        teamService.updateTeam(team, battingTeam);
+//    }
 
     private void setPlayingFormat(int numberOfOvers, Match match) {
             if(numberOfOvers == 5){

@@ -19,9 +19,7 @@ public class PlayingDetails {
     private String firstTeamName;
     @NotBlank(message = "secondTeamName is mandatory")
     private String secondTeamName;
-
     @NotNull(message = "PlayingFormat is mandatory")
     private PlayingFormat playingFormat;
-
     private int numberOfOvers;
 }

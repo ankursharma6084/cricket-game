@@ -73,15 +73,6 @@ public class SeriesServiceImpl implements SeriesService {
                series.setSeriesWinnerId("Series Drawn");
            }
 
-           // Adding Series Id to Teams
-            teamA.getSeries().add(series.getId());
-            teamB.getSeries().add(series.getId());
-//            System.out.println("Series teamA " + teamA.getSeries());
-//            System.out.println("Series teamB " + teamB.getSeries());
-
-            teamService.updateTeam(teamA, teamA.getId());
-            teamService.updateTeam(teamB, teamB.getId());
-
            seriesRepository.save(series);
 
            playedSeriesDetails.setSeriesDetails(details);

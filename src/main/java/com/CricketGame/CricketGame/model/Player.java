@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,16 +19,16 @@ public class Player {
     private String name;
     private PlayerCategory playerCategory;
     private String teamId;
-    private int numberOf50sScored ;
-    private int numberof100sScored ;
+    private int numberOfFoursScored;
+    private int numberofSixesScored;
     private int numberOfWicketsTaken ;
 
     public Player(String name, PlayerCategory playerCategory, String teamId){
            this.name = name ;
            this.playerCategory = playerCategory;
            this.teamId = teamId;
-           numberOf50sScored = 0;
-           numberof100sScored = 0;
+           numberOfFoursScored = 0;
+           numberofSixesScored = 0;
            numberOfWicketsTaken = 0;
     }
 }
