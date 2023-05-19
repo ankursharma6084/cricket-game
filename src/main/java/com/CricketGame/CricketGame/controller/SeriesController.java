@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/series")
 public class SeriesController {
@@ -28,4 +30,10 @@ public class SeriesController {
     public Series getSeriesDetails(@PathVariable String id) {
         return seriesService.getSeriesDetails(id);
     }
+
+    @GetMapping("/all")
+    public List<Series> getAllSeries(){
+        return seriesService.getAllSeries();
+    }
+
 }

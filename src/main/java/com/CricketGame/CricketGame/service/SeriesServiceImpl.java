@@ -12,6 +12,8 @@ import com.CricketGame.CricketGame.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SeriesServiceImpl implements SeriesService {
 
@@ -84,5 +86,9 @@ public class SeriesServiceImpl implements SeriesService {
         // Exception halndling left
         return seriesRepository.findById(id)
                 .orElseThrow( ()-> new InvalidDetailsException("No series details found with id " + id)) ;
+    }
+
+    public List<Series> getAllSeries(){
+         return seriesRepository.findAll();
     }
 }
