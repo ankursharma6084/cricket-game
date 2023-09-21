@@ -72,7 +72,8 @@ public class TeamServiceImpl implements TeamService{
         for(String playerId: playerIds){
             // Exception Handling Left
             players.add(playerRepository.findById(playerId)
-                    .orElseThrow( ()-> new InvalidDetailsException("Player not found with id " + id ))) ;
+                            .orElseThrow()) ;
+//                    .orElseThrow( ()-> new InvalidDetailsException("Player not found with id " + id ))) ;
         }
         return players;
     }
